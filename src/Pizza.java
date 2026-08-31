@@ -74,7 +74,7 @@ public class Pizza {
      * @return Double positivo com o valor da pizza.
      */
 	public double valorFinal() {
-		return PRECO_BASE + valorAdicionais();
+		return PRECO_BASE + calcularValorAdicionais();
 	}
 
 	private double calcularValorAdicionais() {
@@ -92,7 +92,7 @@ public class Pizza {
         cupom += String.format("Pizza com %d ingredientes\n",      quantidadeIngredientes);
 
         cupom += String.format("\tPreço base: R$ %.2f\n", PRECO_BASE);
-        cupom += String.format("\tAdicionais: R$ %.2f\n", valorAdicionais());
+        cupom += String.format("\tAdicionais: R$ %.2f\n", calcularValorAdicionais());
         cupom += String.format("VALOR A PAGAR: R$ %.2f", valorFinal());
 
         return cupom;
