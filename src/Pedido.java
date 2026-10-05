@@ -24,9 +24,8 @@
 
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.Objects;
 
-public class Pedido {
+public  abstract class Pedido {
     private  static int ultimoPedido;
     private LocalDate data;
     protected LinkedList<Pizza> pizzas;
@@ -60,7 +59,7 @@ public class Pedido {
         return  idPedido;
     }
 
-    public double precoAPagar(){
+    protected double valorPizzas(){
         double preco = 0d;
         for (Pizza pizza : pizzas) {
             preco += pizza.valorFinal();
@@ -68,7 +67,9 @@ public class Pedido {
         return preco;
     }
 
-    protected String cabecalho(){
+    public abstract  double precoAPagar();
+
+    protected  final String cabecalho(){
         String estado = aberto ? "aberto" : "fechado";
         return ( String.format("Pedido nº %d - %s (%s) com %d pizzas\n", idPedido, data, estado, pizzas.size()));
     }
@@ -82,17 +83,6 @@ public class Pedido {
         return detalhes.toString();
     }
 
-    @Override 
-    public String toString(){
-        StringBuilder cupom = new StringBuilder(cabecalho());
-        cupom.append("PEDIDO LOCAL\n");
-        cupom.append(detalhesPedido()+"\n");
-        
-        cupom.append(String.format("VALOR: R$ %.2f", 
-                            precoAPagar()));
-
-        return cupom.toString();
-    }
 
     @Override 
     public boolean equals(Object obj){
