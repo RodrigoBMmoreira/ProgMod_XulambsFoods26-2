@@ -65,7 +65,7 @@ public class PizzaTest {
     @Test
     public void cupomContemDetalhamento(){
         //Act
-        String cupom = pizza.gerarCupom();
+        String cupom = pizza.toString();
 
         //Assert
         assertTrue( 
@@ -74,5 +74,14 @@ public class PizzaTest {
             cupom.contains("20,00") &&
             cupom.contains("49,00")
         );
+    }
+
+    @Test 
+    public void adicionaBordaCorretamente(){
+        //Act
+        double valor = pizza.adicionarBorda(EBorda.CHEDDAR);
+
+        //Assert
+        assertEquals(59d, valor, 0.01);
     }
 }

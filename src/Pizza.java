@@ -32,6 +32,7 @@ public class Pizza {
 
     private static int pizzasVendidas;
     
+    private  EBorda borda;
     private int quantidadeIngredientes;
 
     /**
@@ -50,6 +51,7 @@ public class Pizza {
 
     private void init(int adicionais) {
 		 adicionarIngredientes(adicionais);
+         borda = EBorda.TRADICIONAL;
          pizzasVendidas++;
     }
 
@@ -74,9 +76,10 @@ public class Pizza {
      * @return Double positivo com o valor da pizza.
      */
 	public double valorFinal() {
-		return PRECO_BASE + valorAdicionais();
+		return PRECO_BASE + valorAdicionais() + borda.getValor();
 	}
 
+    
 	private double valorAdicionais() {
 		return quantidadeIngredientes * VALOR_INGREDIENTE;
 	}
@@ -86,17 +89,24 @@ public class Pizza {
      * dos adicionais e valor final.
      * @return String com as informações descritas.
      */
-	public String gerarCupom() {
-		String cupom = "Xulambs Pizza!!!\n";
+    @Override 
+	public String toString() {
+		String cupom = "";
         
-        cupom += String.format("Pizza com %d ingredientes\n",      quantidadeIngredientes);
+        cupom += String.format("Pizza com %d ingredientes e borda %s\n",      quantidadeIngredientes, borda.getNome());
 
         cupom += String.format("\tPreço base: R$ %.2f\n", PRECO_BASE);
+        cupom += String.format("\tBorda: R$ %.2f\n", borda.getValor());
         cupom += String.format("\tAdicionais: R$ %.2f\n", valorAdicionais());
         cupom += String.format("VALOR A PAGAR: R$ %.2f", valorFinal());
 
         return cupom;
 	}
+
+    @Override 
+    public  int hashCode(){
+        return this.toString().hashCode();
+    }
 
     /**
      * Verifica se a quantidade de ingredientes passada pode
@@ -122,4 +132,17 @@ public class Pizza {
         }
         return quantidadeIngredientes;
 	}
+
+    /**
+     * Adiciona uma borda à pízza. Se já houver uma borda, será substituida.
+     * Em caso de borda nula, será adicionada uma borda tradicional.
+     * @param borda Borda a ser adicionada
+     * @return Preco da pizza com a borda atual.
+     */
+    public double adicionarBorda(EBorda borda){
+        if(borda == null)
+            borda = EBorda.TRADICIONAL;
+        this.borda = borda;
+        return valorFinal();
+    }
 }
